@@ -1,5 +1,5 @@
 import React from "react";
-import GoogleMapReact from "google-map-react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Rating from "@material-ui/lab";
@@ -14,16 +14,22 @@ const Map = () => {
 
   return (
     <div className={classes.mapContainer}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "" }}
-        deafaultCenter={coordinates}
-        center={coordinates}
-        defaultZoom={14}
-        margin={[50, 50, 50, 50]}
-        options={""}
-        onChange={""}
-        onChildClick={""}
-      ></GoogleMapReact>
+      <MapContainer
+        style={{ height: "90vh" }}
+        center={[51.505, -0.09]}
+        zoom={13}
+        scrollWheelZoom={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
     </div>
   );
 };
