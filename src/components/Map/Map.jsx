@@ -1,35 +1,72 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import React, { useState, useEffect } from "react";
+import GoogleMapReact from "google-map-react";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import Rating from "@material-ui/lab";
+import Rating  from "@material-ui/lab/Rating";
 
 import useStyles from "./styles";
 
-const Map = () => {
-  const classes = useStyles();
-  const iMobile = useMediaQuery("(min-width:600px)");
+import mapStyles from './mapStyles';
 
-  const coordinates = { lat: 0, lng: 0 };
+const Map = ({ setCoordinates, setBounds, coordinates, places, setChildClicked, weatherData }) => {
+  const classes = useStyles();
+  const isDesktop = useMediaQuery("(min-width:600px)");
 
   return (
     <div className={classes.mapContainer}>
-      <MapContainer
-        style={{ height: "90vh" }}
-        center={[51.505, -0.09]}
-        zoom={13}
-        scrollWheelZoom={false}
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
+        defaultCenter={coordinates}
+        center={coordinates}
+        defaultZoom={14}
+        margin={[50, 50, 50, 50]}
+        options={{ disableDefaultUI: true, zoomControl: true.valueOf, styles: mapStyles }}
+        onChange={(e) => {
+          setCoordinates({ lat: e.center.lat, lng: e.center.lng });
+          setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
+        }}
+        onChildClick={(child) => setChildClicked(child)}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
+        {places?.map((place, i) => (
+          <div
+            className={classes.markerContainer}
+            lat={Number(place.latitude)}
+            lng={Number(place.longitude)}
+            key={i}
+          >
+            {!isDesktop ? (
+              <LocationOnOutlinedIcon color="primary" fontsize="large" />
+            ) : (
+              <Paper elevation={3} className={classes.paper}>
+                <Typography
+                  className={classes.typography}
+                  variant="subtitle2"
+                  gutterBottom
+                >
+                  {place.name}
+                </Typography>
+                <img
+                className={classes.pointer}
+                  src={
+                    place.photo
+                      ? place.photo.images.large.url
+                      : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
+                  }
+                  alt={place.name}
+                />
+                <Rating size='small' value={Number(place.rating)} readOnly />
+              </Paper>
+            )}
+          </div>
+        ))}
+        {weatherData?.list?.map((data, i) => (
+          console.log('Map weather', data)
+          
+          // <div key={i} lat={data.coord.lat} lon={data.coord.lon}>
+          //  <img src={`http://openweathermap.org/img/w/${data.icon}.png`} height="70px" />
+          // </div>
+        ))}
+      </GoogleMapReact>
     </div>
   );
 };
