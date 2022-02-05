@@ -59,12 +59,12 @@ const Map = ({ setCoordinates, setBounds, coordinates, places, setChildClicked, 
             )}
           </div>
         ))}
-        {weatherData?.list?.map((data, i) => (
-          console.log('Map weather', data)
+        {weatherData?.weather?.map((data, i) => (
+          // console.log('Map weather', data)
           
-          // <div key={i} lat={data.coord.lat} lon={data.coord.lon}>
-          //  <img src={`http://openweathermap.org/img/w/${data.icon}.png`} height="70px" />
-          // </div>
+          <div key={i} lat={weatherData.coord.lat} lon={weatherData.coord.lon}>
+           <img src={`http://openweathermap.org/img/w/${data.icon}.png`} height="70px" />
+          </div>
         ))}
       </GoogleMapReact>
     </div>

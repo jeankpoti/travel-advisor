@@ -46,7 +46,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterBottom variant="subtitle1">
-            {place.price_level}
+            {place.price}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between">
