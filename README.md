@@ -1,4 +1,13 @@
 <<<<<<< HEAD
+
+# Restaurants page
+![All page](assets/Travel-advisor-restaurants.png)
+# Hotels page
+![All page](assets/Travel-advisor-hotels.png)
+# Attractions page
+![All page](assets/Travel-advisor-attractions.png)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -6,6 +15,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm i`
+
+To install all dependecies
 
 ### `npm start`
 
